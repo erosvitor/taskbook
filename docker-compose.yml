@@ -1,0 +1,44 @@
+version: '3.9'
+networks:
+  taskbook:
+    driver: bridge
+    name: taskbook
+volumes:
+  taskbook:
+services:
+  db:
+    image: mysql:8.0.29
+    container_name: taskbook-db
+    restart: always
+    environment:
+      TZ: America/Sao_Paulo
+      MYSQL_DATABASE: taskbook
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_TCP_PORT: 3308
+    ports:
+      - 3308:3308
+    expose:
+      - 3308
+    networks:
+      - taskbook
+    volumes:
+      - ./database/taskbook.sql:/docker-entrypoint-initdb.d/0_create.sql
+  app:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: dockerfile-app
+    image: erosvitor/taskbook
+    container_name: taskbook-app
+    restart: always
+    # Estas propriedades sobrepoem as propriedades no 'application.yml'
+    environment:
+      TZ: America/Sao_Paulo
+      SPRING.DATASOURCE.URL: jdbc:mysql://db:3308/taskbook?useTimezone=true&serverTimezone=UTC
+      SPRING.DATASOURCE.USERNAME: root
+      SPRING.DATASOURCE.PASSWORD: root
+    ports:
+      - 8080:8080
+    networks:
+      - taskbook
