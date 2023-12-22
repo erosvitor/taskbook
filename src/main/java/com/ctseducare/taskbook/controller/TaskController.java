@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ctseducare.taskbook.exception.response.ExceptionResponse;
@@ -65,15 +66,16 @@ public class TaskController {
     }
     
     @PutMapping(consumes = "application/json", produces = "application/json")
-    @Operation(summary = "Altera dados de uma tarefa.", description = "Após os dados serem alterados é retornado os dados da tarefa atualizados.")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @Operation(summary = "Altera dados de uma tarefa.", description = "Após os dados serem alterados é retornado o status 204 sem conteúdo.")
     @ApiResponses(
         value = {
-            @ApiResponse(responseCode = "200", description = "Dados da tarefa atualizados.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Task.class))),
+            @ApiResponse(responseCode = "204"),
             @ApiResponse(responseCode = "400", description = "Erro informando problemas com os dados da requisição e/ou informando que a tarefa não existe.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class))),
         }
     )
-    public ResponseEntity<Task> update(@Valid @RequestBody Task task) {
-        return ResponseEntity.ok(service.update(task));
+    public void update(@Valid @RequestBody Task task) {
+    	service.update(task);
     }
     
     @DeleteMapping(path = "/{id}", produces="text/plain")

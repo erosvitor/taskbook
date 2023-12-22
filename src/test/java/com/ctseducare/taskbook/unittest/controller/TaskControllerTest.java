@@ -157,9 +157,7 @@ public class TaskControllerTest {
 		// Then
 		response
           //.andDo(print())
-		  .andExpect(status().is(200))
-		  .andExpect(jsonPath("$.id", is(taskUpdated.getId())))
-		  .andExpect(jsonPath("$.description", is(taskUpdated.getDescription())));
+		  .andExpect(status().is(HttpStatus.NO_CONTENT.value()));
 	}
 
 	@Test
