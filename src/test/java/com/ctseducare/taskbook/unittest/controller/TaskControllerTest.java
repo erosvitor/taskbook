@@ -51,25 +51,25 @@ public class TaskControllerTest {
 
 	@Test
 	void testPost() throws Exception {
-		Task taskToInsert = new Task();
-		taskToInsert.setDescription("Tarefa 1");
-		taskToInsert.setInitialDate(LocalDateTime.of(2023, 9, 25, 8, 0, 0));
-		taskToInsert.setFinalDate(LocalDateTime.of(2023, 9, 25, 18, 0, 0));
+		Task taskToCreate = new Task();
+		taskToCreate.setDescription("Tarefa 1");
+		taskToCreate.setInitialDate(LocalDateTime.of(2023, 9, 25, 8, 0, 0));
+		taskToCreate.setFinalDate(LocalDateTime.of(2023, 9, 25, 18, 0, 0));
 
-		Task taskInserted = new Task();
-		taskInserted.setId(1);
-		taskInserted.setDescription("Tarefa 1");
-		taskInserted.setInitialDate(LocalDateTime.of(2023, 9, 25, 8, 0, 0));
-		taskInserted.setFinalDate(LocalDateTime.of(2023, 9, 25, 18, 0, 0));
+		Task taskCreated = new Task();
+		taskCreated.setId(1);
+		taskCreated.setDescription("Tarefa 1");
+		taskCreated.setInitialDate(LocalDateTime.of(2023, 9, 25, 8, 0, 0));
+		taskCreated.setFinalDate(LocalDateTime.of(2023, 9, 25, 18, 0, 0));
 
 		// Given
-		given(service.insert(taskToInsert)).willReturn(taskInserted);
+		given(service.create(taskToCreate)).willReturn(taskCreated);
 
 		// When
 		var request = MockMvcRequestBuilders
 				.post("/tasks")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(taskToInsert));
+				.content(objectMapper.writeValueAsString(taskToCreate));
 
 		ResultActions response = mockMvc.perform(request);
 		
@@ -77,21 +77,21 @@ public class TaskControllerTest {
 		response
 		  //.andDo(print())
 		  .andExpect(status().is(200))
-		  .andExpect(jsonPath("$.id", is(taskInserted.getId())));
+		  .andExpect(jsonPath("$.id", is(taskCreated.getId())));
 	}
 
 	@Test
 	void testPostWithDataValidationFailure() throws Exception {
-		Task taskToInsert = new Task();
-		taskToInsert.setDescription("Tar");
-		taskToInsert.setInitialDate(LocalDateTime.of(2023, 9, 25, 8, 0, 0));
-		taskToInsert.setFinalDate(null);
+		Task taskToCreate = new Task();
+		taskToCreate.setDescription("Tar");
+		taskToCreate.setInitialDate(LocalDateTime.of(2023, 9, 25, 8, 0, 0));
+		taskToCreate.setFinalDate(null);
 
 		// When
 		var request = MockMvcRequestBuilders
 				.post("/tasks")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(taskToInsert));
+				.content(objectMapper.writeValueAsString(taskToCreate));
 
 		ResultActions response = mockMvc.perform(request);
 		
@@ -115,7 +115,7 @@ public class TaskControllerTest {
 		tasks.add(task);
 
 		// Given
-		given(service.findAll()).willReturn(tasks);
+		given(service.readAll()).willReturn(tasks);
 
 		// When
 		var request = MockMvcRequestBuilders.get("/tasks");

@@ -20,11 +20,11 @@ public class TaskService {
     @Autowired
     TaskRepository repository;
     
-    public Task insert(Task task) {
+    public Task create(Task task) {
         return repository.save(task);
     }
     
-    public List<Task> findAll() {
+    public List<Task> readAll() {
         return repository.findAll();
     }
     

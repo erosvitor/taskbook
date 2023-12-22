@@ -48,8 +48,8 @@ public class TaskController {
             @ApiResponse(responseCode = "400", description = "Erro informando problemas com os dados da requisição.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class))),
         }
     )
-    public ResponseEntity<Task> insert(@Valid @RequestBody Task task) {
-        return ResponseEntity.ok(service.insert(task));
+    public ResponseEntity<Task> create(@Valid @RequestBody Task task) {
+        return ResponseEntity.ok(service.create(task));
     }
     
     @GetMapping(produces = "application/json")
@@ -59,8 +59,8 @@ public class TaskController {
             @ApiResponse(responseCode = "200", description = "Lista contendo as tarefas.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Task.class))))
         }
     )
-    public ResponseEntity<List<Task>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<Task>> readAll() {
+        return ResponseEntity.ok(service.readAll());
     }
     
     @PutMapping(consumes = "application/json", produces = "application/json")

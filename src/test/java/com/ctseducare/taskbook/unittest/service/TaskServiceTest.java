@@ -34,27 +34,27 @@ public class TaskServiceTest {
 	TaskService service;
 
 	@Test
-	void testInsert() {
-		Task taskToInsert = new Task();
-		taskToInsert.setDescription("Tarefa 1");
-		taskToInsert.setInitialDate(LocalDateTime.of(2023, 9, 25, 8, 0, 0));
-		taskToInsert.setFinalDate(LocalDateTime.of(2023, 9, 25, 18, 0, 0));
+	void testCreate() {
+		Task taskToCreate = new Task();
+		taskToCreate.setDescription("Tarefa 1");
+		taskToCreate.setInitialDate(LocalDateTime.of(2023, 9, 25, 8, 0, 0));
+		taskToCreate.setFinalDate(LocalDateTime.of(2023, 9, 25, 18, 0, 0));
 
-		Task taskInserted = new Task();
-		taskInserted.setId(1);
-		taskInserted.setDescription("Tarefa 1");
-		taskInserted.setInitialDate(LocalDateTime.of(2023, 9, 25, 8, 0, 0));
-		taskInserted.setFinalDate(LocalDateTime.of(2023, 9, 25, 18, 0, 0));
+		Task taskCreated = new Task();
+		taskCreated.setId(1);
+		taskCreated.setDescription("Tarefa 1");
+		taskCreated.setInitialDate(LocalDateTime.of(2023, 9, 25, 8, 0, 0));
+		taskCreated.setFinalDate(LocalDateTime.of(2023, 9, 25, 18, 0, 0));
 		
-		when(repository.save(taskToInsert)).thenReturn(taskInserted);
-		Task result = service.insert(taskToInsert);
+		when(repository.save(taskToCreate)).thenReturn(taskCreated);
+		Task result = service.create(taskToCreate);
 		
 		assertNotNull(result);
-		assertEquals(result.getId(), taskInserted.getId());
+		assertEquals(result.getId(), taskCreated.getId());
 	}
 
 	@Test
-	void testFindAll() {
+	void testReadAll() {
 		Task task = new Task();
 		task.setId(1);
 		task.setDescription("Tarefa 1");
@@ -65,7 +65,7 @@ public class TaskServiceTest {
 		tasks.add(task);
 		
 		when(repository.findAll()).thenReturn(tasks);
-		List<Task> result = service.findAll();
+		List<Task> result = service.readAll();
 		
 		assertNotNull(result);
 		assertEquals(result.size(), tasks.size());
