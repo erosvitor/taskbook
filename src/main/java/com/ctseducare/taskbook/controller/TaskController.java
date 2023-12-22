@@ -3,6 +3,7 @@ package com.ctseducare.taskbook.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,12 +45,12 @@ public class TaskController {
     @Operation(summary = "Registra uma tarefa.", description = "Após a tarefa ser registrada é retornado os dados da tarefa com o identificador preenchido.")
     @ApiResponses(
     	value = {
-            @ApiResponse(responseCode = "200", description = "Dados da tarefa com o identificador preenchido.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Task.class))),
+            @ApiResponse(responseCode = "201", description = "Dados da tarefa com o identificador preenchido.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Task.class))),
             @ApiResponse(responseCode = "400", description = "Erro informando problemas com os dados da requisição.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class))),
         }
     )
     public ResponseEntity<Task> create(@Valid @RequestBody Task task) {
-        return ResponseEntity.ok(service.create(task));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(task));
     }
     
     @GetMapping(produces = "application/json")
