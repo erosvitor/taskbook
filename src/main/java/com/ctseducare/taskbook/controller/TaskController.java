@@ -78,17 +78,17 @@ public class TaskController {
     	service.update(task);
     }
     
-    @DeleteMapping(path = "/{id}", produces="text/plain")
-    @Operation(summary = "Remove uma tarefa.", description="Após a tarefa ser removida é retornado um status informando que a tarefa foi removida.")
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @Operation(summary = "Remove uma tarefa.", description="Após os dados serem alterados é retornado o status 204 sem conteúdo.")
     @ApiResponses(
       	value = {
-            @ApiResponse(responseCode = "200", description = "Status informando que a tarefa com removida.", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "204"),
             @ApiResponse(responseCode = "400", description = "Erro informando que a tarefa não existe.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class))),
         }
     )
-    public ResponseEntity<String> delete(@Parameter(description = "Identificador da tarefa.") @PathVariable Integer id) {
+    public void delete(@Parameter(description = "Identificador da tarefa.") @PathVariable Integer id) {
         service.delete(id);
-        return ResponseEntity.ok("Item excluído");
     }
 
 }

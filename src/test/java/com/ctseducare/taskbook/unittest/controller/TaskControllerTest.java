@@ -208,7 +208,7 @@ public class TaskControllerTest {
 		// Then
 		response
 		  //.andDo(print())
-		  .andExpect(status().isOk());
+		  .andExpect(status().isNoContent());
 	}
 
 	@Test
