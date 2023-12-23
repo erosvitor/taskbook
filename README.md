@@ -10,7 +10,7 @@ Project created in the course API REST with Spring Boot.
 ## Steps to Setup
 1. Create the database
 ```
-CREATE DATABASE taskbook;
+CREATE DATABASE taskbook CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci;
 
 USE taskbook;
 
@@ -20,8 +20,7 @@ CREATE TABLE tasks (
   initial_date DATETIME NOT NULL,
   final_date DATETIME NOT NULL,
   PRIMARY KEY (id)
-);
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE utf8mb3_general_ci;
 ```
 
 2. Clone the application
@@ -39,11 +38,13 @@ mvn package
 java -jar target/taskbook-0.0.1-SNAPSHOT.jar
 ```
 
+## Swagger
+```
+http://localhost:8080/swagger-ui
+```
+
 ## Using the project via Postman
-
-Run the Postman and create the following requests
-
-1. Insert a task
+1. Create task
 ```
 POST http://localhost:8080/tasks
 
@@ -54,7 +55,7 @@ POST http://localhost:8080/tasks
 }
 ```
 
-2. Get all tasks
+2. Read all tasks
 ```
 GET http://localhost:8080/tasks
 ```
@@ -77,8 +78,7 @@ DELETE http://localhost:8080/tasks/1
 ```
 
 ## Using the project via curl
-
-1. Insert a task
+1. Create task
 ```
 curl --location 'http://localhost:8080/tasks' \
      --header 'Content-Type: application/json' \
@@ -89,7 +89,7 @@ curl --location 'http://localhost:8080/tasks' \
        }'
 ```
 
-2. Get all tasks
+2. Read all tasks
 ```
 curl --location 'http://localhost:8080/tasks'
 ```
